@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Pref } from '../contains/types';
+
+interface Pref {
+  prefCode: number;
+  prefName: string;
+  checked: boolean;
+}
 
 const ACCESS_URL = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
 const apiKey = process.env.REACT_APP_RESAS_API_KEY;
