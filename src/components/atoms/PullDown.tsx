@@ -3,16 +3,17 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   options: string[];
-  onChange: (option: string) => void;
+  selectedOption: string;
+  onChange: (selectedOption: string) => void;
 }
 
-function PullDown({ options, onChange }: Props) {
+function PullDown({ options, selectedOption, onChange }: Props) {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(e.currentTarget.value);
   };
   return (
     <div>
-      <select onChange={(e) => handleChange(e)}>
+      <select value={selectedOption} onChange={(e) => handleChange(e)}>
         {options.map((option) => (
           <option key={uuidv4()} value={option}>
             {option}

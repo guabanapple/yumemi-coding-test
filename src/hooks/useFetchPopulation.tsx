@@ -28,6 +28,10 @@ function useFetchPopulation({ prefCodes }: Props): FetchedData[] | null {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (prefCodes.length === 0) {
+          setFetchedData(null);
+          return;
+        }
         const promises = prefCodes.map(async (prefCode) => {
           const ACCESS_URL = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefCode}`;
           const response = await axios.get<FetchedData>(ACCESS_URL, { headers: { 'X-API-KEY': apiKey } });
@@ -43,9 +47,7 @@ function useFetchPopulation({ prefCodes }: Props): FetchedData[] | null {
       }
     };
 
-    if (apiKey && prefCodes.length > 0) {
-      fetchData();
-    }
+    fetchData();
   }, [prefCodes]);
 
   return fetchedData;

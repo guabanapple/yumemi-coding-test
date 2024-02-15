@@ -24,6 +24,7 @@ function App() {
       ...prevState,
       selectedOption,
     }));
+    console.log(optionLabels);
   };
   const handleCheckBoxChanged = (prefName: string) => {
     setPrefData((prevState) =>
@@ -44,6 +45,12 @@ function App() {
   );
   const population = useFetchPopulation({ prefCodes: checkedPrefCodes });
 
+  if (optionLabels.options.length <= 1 && population) {
+    const options = population[0].result.data.map((d) => d.label);
+    setOptionLabels({ options, selectedOption: options[0] });
+  }
+  console.log(population);
+
   const dataWithCodes = useMemo(() => {
     if (population && checkedPrefCodes) {
       return population.map((item, index) => ({
@@ -59,7 +66,9 @@ function App() {
       <h3>hello</h3>
       {prefData && <PrefCheckLists prefData={prefData} onChange={handleCheckBoxChanged} />}
       <PullDown
+        // options={optionLabels.options}
         options={population ? population[0].result.data.map((d) => d.label) : ['-----']}
+        selectedOption={optionLabels.selectedOption}
         onChange={handlePullDownChanged}
       />
       <div>GraphArea</div>
