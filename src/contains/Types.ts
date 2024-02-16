@@ -11,6 +11,13 @@ export interface Data {
   year: number;
   value: number;
 }
+export interface PopulationWithPrefCode {
+  prefCode: number;
+  populationData: {
+    label: string;
+    data: Data[];
+  }[];
+}
 export interface PopulationWithPrefName {
   prefName: string;
   populationData: {
