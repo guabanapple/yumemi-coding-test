@@ -28,7 +28,8 @@ function usePopulationData({ prefData, optionLabels }: Props) {
     return [];
   }, [population, checkedPrefCodes, prefData]);
 
-  const labels: string[] = populationWithPrefName.flatMap((data) => data.populationData.map((d) => d.label));
+  const labelsSet = new Set(populationWithPrefName.flatMap((data) => data.populationData.map((d) => d.label)));
+  const labels: string[] = Array.from(labelsSet);
 
   const processDataByYearAndOption = (prefPopulation: PopulationWithPrefName[]): ProcessedData[] => {
     const result: ProcessedData[] = [];
