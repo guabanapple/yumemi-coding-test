@@ -4,6 +4,7 @@ import PullDown from './components/atoms/PullDown';
 import useFetchPref from './hooks/useFetchPref';
 import PrefCheckLists from './components/organisms/PrefCheckLists';
 import useFetchPopulation from './hooks/useFetchPopulation';
+import Graph from './components/organisms/Graph';
 
 interface Pref {
   prefCode: number;
@@ -13,6 +14,21 @@ interface Pref {
 interface OptionLabels {
   options: string[];
   selectedOption: string;
+}
+interface Data {
+  year: number;
+  value: number;
+}
+interface PopulationWithPrefName {
+  prefName: string;
+  populationData: {
+    label: string;
+    data: Data[];
+  }[];
+}
+interface ProcessedData {
+  year: number;
+  [prefName: string]: number;
 }
 
 function App() {
@@ -24,7 +40,6 @@ function App() {
       ...prevState,
       selectedOption,
     }));
-    console.log(optionLabels);
   };
   const handleCheckBoxChanged = (prefName: string) => {
     setPrefData((prevState) =>
@@ -49,29 +64,52 @@ function App() {
     const options = population[0].result.data.map((d) => d.label);
     setOptionLabels({ options, selectedOption: options[0] });
   }
-  console.log(population);
 
-  const dataWithCodes = useMemo(() => {
-    if (population && checkedPrefCodes) {
+  const populationWithPrefName: PopulationWithPrefName[] = useMemo(() => {
+    if (population && population.length === checkedPrefCodes.length) {
       return population.map((item, index) => ({
-        prefCode: checkedPrefCodes[index],
-        populationData: item,
+        prefName: prefData.find((pref) => pref.prefCode === checkedPrefCodes[index])!.prefName,
+        populationData: item.result.data.map((d) => ({
+          label: d.label,
+          data: d.data,
+        })),
       }));
     }
     return [];
-  }, [population, checkedPrefCodes]);
+  }, [population, checkedPrefCodes, prefData]);
+
+  const processDataByYear = (populationData: PopulationWithPrefName[]): ProcessedData[] => {
+    const result: ProcessedData[] = [];
+
+    populationData.forEach((pref) => {
+      pref.populationData
+        .filter(({ label }) => label === optionLabels.selectedOption)
+        .forEach(({ data }) => {
+          data.forEach(({ year, value }) => {
+            const entry = result.find((e) => e.year === year);
+            if (entry) {
+              entry[pref.prefName] = value;
+            } else {
+              result.push({ year, [pref.prefName]: value });
+            }
+          });
+        });
+    });
+
+    return result;
+  };
+  const processedDateByYear = processDataByYear(populationWithPrefName);
 
   return (
     <div>
       <h3>hello</h3>
       {prefData && <PrefCheckLists prefData={prefData} onChange={handleCheckBoxChanged} />}
       <PullDown
-        // options={optionLabels.options}
         options={population ? population[0].result.data.map((d) => d.label) : ['-----']}
         selectedOption={optionLabels.selectedOption}
         onChange={handlePullDownChanged}
       />
-      <div>GraphArea</div>
+      {processedDateByYear.length > 1 && <Graph populationData={processedDateByYear} />}
     </div>
   );
 }

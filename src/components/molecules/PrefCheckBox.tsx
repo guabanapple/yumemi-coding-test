@@ -25,7 +25,6 @@ function PrefCheckBox({ prefData, onChange }: Props) {
   const formattedPrefName = prefData.prefName.padEnd(4, '　');
 
   const handleChanged = () => {
-    console.log(`${prefData.prefName} is checked!`);
     onChange(prefData.prefName);
   };
 

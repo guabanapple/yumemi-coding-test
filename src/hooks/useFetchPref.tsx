@@ -22,7 +22,6 @@ function useFetchPref(): Pref[] | null {
     }
 
     const fetchData = async () => {
-      console.log('start fetch prefs');
       try {
         const response = await axios.get(ACCESS_URL, { headers: { 'X-API-KEY': apiKey } });
         setPrefData(response.data.result);
