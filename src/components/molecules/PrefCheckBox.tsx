@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { Pref } from '../../contains/Types';
 
 const StyledList = styled.li`
   list-style: none;
@@ -8,12 +9,6 @@ const StyledList = styled.li`
   box-sizing: border-box;
   font-size: 1.1em;
 `;
-
-interface Pref {
-  prefCode: number;
-  prefName: string;
-  checked: boolean;
-}
 
 interface Props {
   prefData: Pref;

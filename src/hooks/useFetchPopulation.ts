@@ -1,30 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FetchedData } from '../contains/Types';
 
 interface Props {
   prefCodes: number[];
 }
-
-interface Data {
-  year: number;
-  value: number;
-}
-
-interface FetchedData {
-  message: string | null;
-  result: {
-    boundaryYear: number;
-    data: {
-      label: string;
-      data: Data[];
-    }[];
-  };
-}
+const apiKey = process.env.REACT_APP_RESAS_API_KEY;
 
 function useFetchPopulation({ prefCodes }: Props): FetchedData[] | null {
   const [fetchedData, setFetchedData] = useState<FetchedData[] | null>(null);
-  const apiKey = process.env.REACT_APP_RESAS_API_KEY;
-
   useEffect(() => {
     const fetchData = async () => {
       try {

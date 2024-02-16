@@ -1,35 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import PullDown from './components/atoms/PullDown';
 import useFetchPref from './hooks/useFetchPref';
 import PrefCheckLists from './components/organisms/PrefCheckLists';
 import useFetchPopulation from './hooks/useFetchPopulation';
 import Graph from './components/organisms/Graph';
-
-interface Pref {
-  prefCode: number;
-  prefName: string;
-  checked: boolean;
-}
-interface OptionLabels {
-  options: string[];
-  selectedOption: string;
-}
-interface Data {
-  year: number;
-  value: number;
-}
-interface PopulationWithPrefName {
-  prefName: string;
-  populationData: {
-    label: string;
-    data: Data[];
-  }[];
-}
-interface ProcessedData {
-  year: number;
-  [prefName: string]: number;
-}
+import { Pref, OptionLabels, PopulationWithPrefName, ProcessedData } from './contains/Types';
 
 function App() {
   const [prefData, setPrefData] = useState<Pref[]>([]);
@@ -47,24 +23,26 @@ function App() {
     );
   };
 
-  // 要改善：初回レスポンスの保存
   const prefs = useFetchPref();
   if (prefData.length < 1 && prefs) {
     const newData = prefs.map((p) => ({ ...p, checked: false }));
     setPrefData(newData);
   }
 
+  // 無限ループを防ぐためメモ化
   const checkedPrefCodes = useMemo(
     () => prefData.filter((pref) => pref.checked === true).map((pref) => pref.prefCode),
     [prefData]
   );
   const population = useFetchPopulation({ prefCodes: checkedPrefCodes });
 
+  // ドロップダウンの値セット
   if (optionLabels.options.length <= 1 && population) {
     const options = population[0].result.data.map((d) => d.label);
     setOptionLabels({ options, selectedOption: options[0] });
   }
 
+  // チェックされたprefNameとpopulationデータの紐付け
   const populationWithPrefName: PopulationWithPrefName[] = useMemo(() => {
     if (population && population.length === checkedPrefCodes.length) {
       return population.map((item, index) => ({
@@ -78,6 +56,7 @@ function App() {
     return [];
   }, [population, checkedPrefCodes, prefData]);
 
+  // Rechartsで使用するフォーマットに変換
   const processDataByYear = (populationData: PopulationWithPrefName[]): ProcessedData[] => {
     const result: ProcessedData[] = [];
 
@@ -95,9 +74,9 @@ function App() {
           });
         });
     });
-
     return result;
   };
+  
   const processedDateByYear = processDataByYear(populationWithPrefName);
 
   return (

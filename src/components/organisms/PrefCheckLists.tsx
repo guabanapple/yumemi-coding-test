@@ -1,11 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import PrefCheckBox from '../molecules/PrefCheckBox';
-
-interface Pref {
-  prefCode: number;
-  prefName: string;
-  checked: boolean;
-}
+import { Pref } from '../../contains/Types';
 
 interface Props {
   prefData: Pref[];
