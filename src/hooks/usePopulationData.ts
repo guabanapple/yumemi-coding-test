@@ -28,12 +28,15 @@ function usePopulationData({ prefData, optionLabels }: Props) {
     return [];
   }, [population, checkedPrefCodes, prefData]);
 
+  // mapだとstring[][]になるためflatMap
+  // 但しチェック数と比例してラベルが増幅するためユニーク値を取得
   const labelsSet = new Set(populationWithPrefName.flatMap((data) => data.populationData.map((d) => d.label)));
   const labels: string[] = Array.from(labelsSet);
 
+  // 該当するプルダウンoptionのデータを抽出
+  // 単一年とその年の各都道府県の人口データ
   const processDataByYearAndOption = (prefPopulation: PopulationWithPrefName[]): ProcessedData[] => {
     const result: ProcessedData[] = [];
-
     prefPopulation.forEach((pref) => {
       pref.populationData
         .filter(({ label }) => label === optionLabels.selectedOption)

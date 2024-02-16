@@ -5,20 +5,22 @@ import { FetchedData, PopulationWithPrefCode } from '../contains/Types';
 interface Props {
   prefCodes: number[];
 }
-const apiKey = process.env.REACT_APP_RESAS_API_KEY;
 
 function useFetchPopulation({ prefCodes }: Props): PopulationWithPrefCode[] | null {
+  const apiKey = process.env.REACT_APP_RESAS_API_KEY;
   const [population, setPopulation] = useState<PopulationWithPrefCode[] | null>(null);
 
   const prefCodesNotFetched = () => {
     if (!Array.isArray(population)) {
       return prefCodes;
     }
+    // 人口データ取得済みの都道府県コード
     const prefCodesInPopulation = population.map((p) => p.prefCode);
     const notFetchedPrefList: number[] = prefCodes.filter((prefCode) => !prefCodesInPopulation.includes(prefCode));
     return notFetchedPrefList;
   };
 
+  // 取得データにprefCodeを紐付け
   const combinePrefNameToData = (
     fetchedData: FetchedData[],
     notFetchedPrefList: number[]
@@ -61,6 +63,7 @@ function useFetchPopulation({ prefCodes }: Props): PopulationWithPrefCode[] | nu
   if (!population) {
     return null;
   }
+  // 取得データ一覧から該当するコードの人口データのみreturn
   return population?.filter((p) => prefCodes.includes(p.prefCode));
 }
 
