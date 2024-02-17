@@ -1,14 +1,6 @@
-import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { Pref } from '../../contains/Types';
-
-const StyledList = styled.li`
-  list-style: none;
-  display: inline-block;
-  padding: 8px 16px;
-  box-sizing: border-box;
-  font-size: 1.1em;
-`;
+import { StyledList } from '../../Styles/Styles';
 
 interface Props {
   prefData: Pref;

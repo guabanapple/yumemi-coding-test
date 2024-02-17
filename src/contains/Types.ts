@@ -4,8 +4,8 @@ export interface Pref {
   checked: boolean;
 }
 export interface OptionLabels {
-  options: string[];
-  selectedOption: string;
+  options: string[] | [];
+  selectedOption: string | null;
 }
 export interface Data {
   year: number;
