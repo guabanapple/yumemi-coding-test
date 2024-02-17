@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Pref } from '../../contains/Types';
-import { StyledList } from '../../Styles/Styles';
+import { StyledList } from '../../Styles/styles';
 
 interface Props {
   prefData: Pref;
@@ -16,7 +16,7 @@ function PrefCheckBox({ prefData, onChange }: Props) {
   };
 
   return (
-    <StyledList>
+    <StyledList fontSize="1.1em">
       <label htmlFor={id}>
         <input type="checkbox" id={id} name={prefData.prefName} checked={prefData.checked} onChange={handleChanged} />
         {formattedPrefName}

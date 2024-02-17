@@ -7,7 +7,7 @@ import usePopulationData from './hooks/usePopulationData';
 import { Pref, OptionLabels } from './contains/Types';
 
 import Template from './components/templates/Template';
-import { GlobalStyle } from './Styles/Styles';
+import { GlobalStyle } from './Styles/styles';
 
 function App() {
   const [prefData, setPrefData] = useState<Pref[]>([]);

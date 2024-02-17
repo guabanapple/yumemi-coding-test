@@ -2,7 +2,7 @@ import PrefCheckLists from '../organisms/PrefCheckLists';
 import Graph from '../organisms/Graph';
 import { ProcessedData, Pref, OptionLabels } from '../../contains/Types';
 import SelectForm from '../organisms/SelectForm';
-import { StyledHeader, StyledResultArea, StyledWaitingArea } from '../../Styles/Styles';
+import { StyledHeader, StyledResultArea, StyledWaitingArea } from '../../Styles/styles';
 
 interface Props {
   prefData: Pref[];
@@ -21,21 +21,18 @@ function Template({ prefData, optionLabels, processedDate, onChangeSelect, onCha
         {prefData.length > 0 ? (
           <PrefCheckLists prefData={prefData} onChange={onChangeCheckBox} />
         ) : (
-          <StyledWaitingArea width="700px" height="500px">
-            データを読み込んでいます
-          </StyledWaitingArea>
+          <StyledWaitingArea>データを読み込んでいます</StyledWaitingArea>
         )}
       </section>
-      {processedDate.length > 0 ? (
+      {prefData.length > 0 && processedDate.length > 0 && (
         <section>
           <StyledHeader>人口情報タイプ</StyledHeader>
           <SelectForm optionLabels={optionLabels} onChange={onChangeSelect} />
           {processedDate.length > 0 && <Graph populationData={processedDate} />}
         </section>
-      ) : (
-        <StyledResultArea width="700px" height="400px" color="#ff8000">
-          都道府県を選択すると結果が表示されます
-        </StyledResultArea>
+      )}
+      {prefData.length > 0 && processedDate.length === 0 && (
+        <StyledResultArea>都道府県を選択すると結果が表示されます</StyledResultArea>
       )}
     </main>
   );

@@ -1,4 +1,4 @@
-import { StyledList } from '../../Styles/Styles';
+import { StyledList } from '../../Styles/styles';
 
 interface Props {
   // eslint-disable-next-line react/require-default-props
@@ -11,7 +11,7 @@ interface Props {
 
 function RadioButton({ isChecked, id, name, value, onChange }: Props) {
   return (
-    <StyledList>
+    <StyledList fontSize="1em">
       <label htmlFor={id}>
         {isChecked ? (
           <input type="radio" name={name} id={id} onChange={() => onChange(value)} checked />

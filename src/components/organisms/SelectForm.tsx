@@ -1,7 +1,8 @@
 import PullDown from '../atoms/PullDown';
 import RadioForm from '../molecules/RadioForm';
 import { OptionLabels } from '../../contains/Types';
-import { JustCentering } from '../../Styles/Styles';
+import { StyledCenteringBox } from '../../Styles/styles';
+import useWindowSize from '../../hooks/useWindowSize';
 
 interface Props {
   optionLabels: OptionLabels;
@@ -9,13 +10,22 @@ interface Props {
 }
 
 function SelectForm({ optionLabels, onChange }: Props) {
-  // 画面サイズに応じて表示するコンポーネントを変更
-  //   const isBig = false;
+  const windowSize = useWindowSize();
+  let selectType: 'radio' | 'pullDown';
+  if (windowSize <= 480) {
+    selectType = 'pullDown';
+  } else {
+    selectType = 'radio';
+  }
+
   return (
-    <JustCentering>
-      <RadioForm options={optionLabels.options} selectedOption={optionLabels.selectedOption!} onChange={onChange} />
-      <PullDown options={optionLabels.options} selectedOption={optionLabels.selectedOption!} onChange={onChange} />
-    </JustCentering>
+    <StyledCenteringBox>
+      {selectType === 'pullDown' ? (
+        <PullDown options={optionLabels.options} selectedOption={optionLabels.selectedOption!} onChange={onChange} />
+      ) : (
+        <RadioForm options={optionLabels.options} selectedOption={optionLabels.selectedOption!} onChange={onChange} />
+      )}
+    </StyledCenteringBox>
   );
 }
 
