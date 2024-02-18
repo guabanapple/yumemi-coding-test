@@ -4,7 +4,6 @@ import Template from '../components/templates/Template';
 
 describe('Template component', () => {
   test('renders waiting area when prefData is empty', () => {
-    // prefDataが空の場合に、waiting areaが正しくレンダリングされることを確認するテスト
     const onChangeSelectMock = jest.fn();
     const onChangeCheckBoxMock = jest.fn();
 
@@ -22,7 +21,6 @@ describe('Template component', () => {
   });
 
   test('renders result area when processedDate is empty', () => {
-    // processedDateが空の場合に、result areaが正しくレンダリングされることを確認するテスト
     const onChangeSelectMock = jest.fn();
     const onChangeCheckBoxMock = jest.fn();
 
@@ -40,7 +38,6 @@ describe('Template component', () => {
   });
 
   test('renders SelectForm and Graph with populated prefData and processedDate', () => {
-    // prefDataとprocessedDateが両方とも入力されている場合に、SelectFormとGraphが正しくレンダリングされることを確認するテスト
     const prefData = [{ prefCode: 1, prefName: '東京', checked: true }];
     const optionLabels = { options: ['Option1', 'Option2'], selectedOption: 'Option1' };
     const processedDate = [{ year: 2020, Tokyo: 10000 }];

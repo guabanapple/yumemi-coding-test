@@ -1,4 +1,3 @@
-// usePopulationData.tsx
 import { useMemo } from 'react';
 import useFetchPopulation from './useFetchPopulation';
 import { PopulationWithPrefName, ProcessedData, Pref, OptionLabels } from '../contains/Types';

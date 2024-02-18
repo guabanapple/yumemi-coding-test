@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LineChart, XAxis, YAxis, Legend, Tooltip, Line, CartesianGrid } from 'recharts';
 import { PopulationData } from '../../contains/Types';
 import { StyledCenteringBox } from '../../Styles/styles';

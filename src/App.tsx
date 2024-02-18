@@ -1,4 +1,3 @@
-// App.tsx
 import { useState } from 'react';
 
 import useFetchPref from './hooks/useFetchPref';
@@ -14,7 +13,6 @@ function App() {
   const [optionLabels, setOptionLabels] = useState<OptionLabels>({ options: [], selectedOption: null });
 
   const handleSelectChanged = (selectedOption: string) => {
-    console.log(selectedOption);
     setOptionLabels((prevState) => ({
       ...prevState,
       selectedOption,
@@ -34,7 +32,6 @@ function App() {
 
   const { population, processedDate, labels } = usePopulationData({ prefData, optionLabels });
 
-  // デフォルトでグラフを描くよう、firstLabelをドロップダウンにセット
   if (population && optionLabels.selectedOption === null) {
     setOptionLabels({
       options: labels,
