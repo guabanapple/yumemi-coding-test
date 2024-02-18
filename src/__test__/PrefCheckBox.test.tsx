@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PrefCheckBox from '../components/molecules/PrefCheckBox';
 
-describe('exists', () => {
-  test('checkbox exists', () => {
+describe('checkbox', () => {
+  test('correctly rendered', () => {
     const prefData = {
       prefCode: 1,
       prefName: '北海道',
@@ -13,6 +13,10 @@ describe('exists', () => {
     render(<PrefCheckBox prefData={prefData} onChange={mockOnChange} />);
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).toBeInTheDocument();
+    expect(checkbox).not.toBeChecked();
+
+    const checkboxLabel = screen.getByText('北海道');
+    expect(checkboxLabel).toBeInTheDocument();
   });
   test('prefName exists', () => {
     const prefData = {
@@ -48,11 +52,16 @@ describe('exists', () => {
       };
       const mockOnChange = jest.fn();
       render(<PrefCheckBox prefData={prefData} onChange={mockOnChange} />);
-      const checkbox = screen.getByRole('checkbox', { name: '北海道' });
+      const checkboxBeforeClick = screen.getByRole('checkbox', { name: '北海道' });
 
-      expect(checkbox).not.toBeChecked();
-      userEvent.click(checkbox);
-      // expect(checkbox).toBeChecked();
+      expect(checkboxBeforeClick).not.toBeChecked();
+      userEvent.click(checkboxBeforeClick);
+      prefData.checked = true;
+      cleanup();
+
+      render(<PrefCheckBox prefData={prefData} onChange={mockOnChange} />);
+      const checkboxAfterClick = screen.getByRole('checkbox', { name: '北海道' });
+      expect(checkboxAfterClick).toBeChecked();
     });
   });
 });

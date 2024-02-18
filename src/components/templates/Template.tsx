@@ -15,7 +15,6 @@ interface Props {
 function Template({ prefData, optionLabels, processedDate, onChangeSelect, onChangeCheckBox }: Props) {
   return (
     <main>
-      {/* <h1>都道府県別：人口グラフ</h1> */}
       <section>
         <StyledHeader>都道府県一覧</StyledHeader>
         {prefData.length > 0 ? (

@@ -25,7 +25,7 @@ function RadioForm({ options, selectedOption, onChange }: Props) {
   );
 
   return (
-    <div>
+    <div role="radiogroup">
       <ul>{radioButtons}</ul>
     </div>
   );
