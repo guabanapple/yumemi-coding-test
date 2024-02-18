@@ -8,7 +8,7 @@ interface Props {
 }
 
 function RadioForm({ options, selectedOption, onChange }: Props) {
-  const isChecked = true;
+  const isChecked: boolean = true;
   const radioButtons = options.map((option) =>
     selectedOption === option ? (
       <RadioButton

@@ -14,6 +14,7 @@ function App() {
   const [optionLabels, setOptionLabels] = useState<OptionLabels>({ options: [], selectedOption: null });
 
   const handleSelectChanged = (selectedOption: string) => {
+    console.log(selectedOption);
     setOptionLabels((prevState) => ({
       ...prevState,
       selectedOption,
