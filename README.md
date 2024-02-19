@@ -1,46 +1,27 @@
-# Getting Started with Create React App
+# 目次
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# サービス概要
+各都道府県における、1980-2045年の5年毎の人口構成データを可視化します。
+なお1980~2020年は実績値ですが、2025年〜は推計値（[国立社会保障・人口問題研究所](https://www.ipss.go.jp/syoushika/tohkei/Mainmenu.html)）です。
 
-## Available Scripts
+# サービスの公開URL
+以下は使用例です。
+![image](https://github.com/guabanapple/yumemi-coding-test/assets/34186454/09fb6ed4-5a4b-47eb-84ce-b64492c85645)
+https://guabanapple.github.io/yumemi-coding-test/
 
-In the project directory, you can run:
+# 使用技術
+| 種別 | 技術スタック |
+| ---- | ---- |
+| フロントエンド | TypeScript@4.9.5, React@18.2.0 |
+| スタイル | Styled-Components@6.1.8 |
+| テスト | Jest@27.5.2, Testing-Library |
+| グラフ | recharts@2.12.0 |
 
-### `yarn start`
+# 今後の展望
+・テストの完成：非同期処理やステート管理、カバレッジにおいて完成度を高める。
+・モバイルUIの改善：モバイル端末上で都道府県一覧をコンパクトに表示する。
+・デザインの改善
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+# 工夫した点
+・リクエストの効率化：RESASのレスポンスデータをステートで保存し、再リクエスト時に未取得の都道府県のみリクエストを行うことで、再レンダリングに要する時間を短縮した。
+・UIとロジックの分離：ロジック処理をカスタムフックに分離した。
