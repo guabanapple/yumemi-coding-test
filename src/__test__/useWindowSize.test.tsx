@@ -1,18 +1,29 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import useWindowSize from '../hooks/useWindowSize';
 
 describe('useWindowSize hook', () => {
-  let addEventListenerSpy: jest.SpyInstance;
-  let removeEventListenerSpy: jest.SpyInstance;
+  let resizeListener: ((event: Event) => void) | null = null;
+  let addEventListenerSpy: jest.Mock;
+  let removeEventListenerSpy: jest.Mock;
 
   beforeEach(() => {
-    addEventListenerSpy = jest.spyOn(window, 'addEventListener');
-    removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+    resizeListener = null;
+    addEventListenerSpy = jest.fn().mockImplementation((event, cb) => {
+      if (event === 'resize') {
+        resizeListener = cb;
+      }
+    });
+    removeEventListenerSpy = jest.fn().mockImplementation((event, cb) => {
+      if (event === 'resize' && resizeListener === cb) {
+        resizeListener = null;
+      }
+    });
+    Object.defineProperty(window, 'addEventListener', { value: addEventListenerSpy });
+    Object.defineProperty(window, 'removeEventListener', { value: removeEventListenerSpy });
   });
 
   afterEach(() => {
-    addEventListenerSpy.mockRestore();
-    removeEventListenerSpy.mockRestore();
+    jest.clearAllMocks();
   });
 
   test('returns initial window size', () => {
@@ -24,12 +35,13 @@ describe('useWindowSize hook', () => {
     const { result } = renderHook(() => useWindowSize());
     expect(result.current).toBe(window.innerWidth);
 
-    window.innerWidth = 500;
-    window.dispatchEvent(new Event('resize'));
+    act(() => {
+      window.innerWidth = 500;
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      resizeListener && resizeListener(new Event('resize'));
+    });
 
-    setTimeout(() => {
-      expect(result.current).toBe(500);
-    }, 0);
+    expect(result.current).toBe(500);
   });
 
   test('removes resize listener on unmount', () => {
